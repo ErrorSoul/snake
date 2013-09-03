@@ -21,10 +21,17 @@ SPEED = 250
 CLOCK = pygame.time.Clock()
 SCREEN = pygame.display.set_mode((SCREEN_SIZE),0,32)
 VEL = [5,0]
-ACC = 29
+ACC = 24
+
+#images 
+CHERRY = pygame.image.load("cherry.png")
+CHERRY = pygame.transform.scale(CHERRY,(ACC,ACC))
+REDBALL = pygame.image.load("redball.png")
+IMAGE = pygame.transform.scale(REDBALL, (32,32))
+IMAGE1 = pygame.transform.scale(REDBALL, (24,24))
 
 
-
+#colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
