@@ -23,12 +23,13 @@ SCREEN = pygame.display.set_mode((SCREEN_SIZE),0,32)
 VEL = [5,0]
 ACC = 24
 
+
 #images 
 CHERRY = pygame.image.load("cherry.png")
 CHERRY = pygame.transform.scale(CHERRY,(ACC,ACC))
 REDBALL = pygame.image.load("redball.png")
 IMAGE = pygame.transform.scale(REDBALL, (32,32))
-IMAGE1 = pygame.transform.scale(REDBALL, (24,24))
+IMAGE1 = pygame.transform.scale(REDBALL, (20,20))
 
 
 #colors

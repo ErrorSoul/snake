@@ -1,13 +1,9 @@
-import pygame
-from pygame.locals import *
-from sys import exit
+
 from data1 import *
 from food import FOOD
 
 
-image = pygame.image.load("redball.png")
-image = pygame.transform.scale(image, (32,32))
-image1 = pygame.transform.scale(image, (24,24))
+
 
 
 
@@ -25,6 +21,9 @@ class ATOM(pygame.sprite.Sprite):
     def update(self):
         self.rect.x = (self.rect.x + self.dir[0]) % WIDTH
         self.rect.y = (self.rect.y + self.dir[1]) % HEIGHT
+
+    def intersect(self, other):
+        other.stop()
     
         
 
@@ -34,7 +33,7 @@ class HEAD(ATOM):
 
     def __init__(self, *kwargs):
         ATOM.__init__(self, *kwargs)
-        self.dir = [ACC,0]
+        self.dir = [ZERO,ZERO]
     
 
 
@@ -42,10 +41,16 @@ class HEAD(ATOM):
 class SNAKE(HEAD):
 
     def __init__(self):
-        HEAD.__init__(self, image1, [HALF_W,HALF_H])
-        self.body = [ATOM(image1, [HALF_W - ACC + c * -ACC, HALF_H]) for c in range(N)]
+        
+        self.body = [ATOM(IMAGE1, [HALF_W -ACC *c , HALF_H]) for c in range(N)]
+        HEAD.__init__(self, IMAGE1, (self.body[0].rect.x,self.body[0].rect.y))
+        self.FLAG = True
 
-    
+
+    def add(self, food):
+        self.body.append(ATOM(CHERRY,(-100,0)))
+        
+
     def move_up(self):
         if self.rect.y + self.dir[1] == self.rect.y:
             self.dir[0]= ZERO
@@ -67,7 +72,13 @@ class SNAKE(HEAD):
             self.dir[0] = -ACC
             self.dir[1] = ZERO
 
+    def stop(self):
+    
+        self.FLAG = True
+
     def key_handler(self):
+        
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 exit()
@@ -76,11 +87,18 @@ class SNAKE(HEAD):
                 if (event.key == K_UP or event.key == K_w) :
                     self.move_up()
 
+                elif(event.key == K_r):
+                    e.dir[0] = ACC
+                    self.FLAG = False
+                    
+
                 elif (event.key == K_DOWN):
                     self.move_down()
 
                 elif (event.key == K_RIGHT):
+                    
                     self.move_right()
+                    
 
                 elif (event.key == K_LEFT):
                     self.move_left()
@@ -89,51 +107,25 @@ class SNAKE(HEAD):
 
     def update(self):
         self.key_handler()
-        
-
-
-        HEAD.update(self)
-        c = self.rect.center
-        k = 0
-        while k < len(self.body):
-            c,self.body[k].rect.center = self.body[k].rect.center,c
-            k +=1
-    
-    
-
-        
-        
-    """def update (self):
-     
-        c = 0
+        if not self.FLAG:
             
-            
-        while c < len(self.body) :
-                h = [self.rect.x, self.rect.y]
 
-                if c == 0:
-                        g = h
-                        self.rect.x = (self.rect.x  )%WIDTH
-                        self.rect.y = (self.rect.y )%HEIGHT
-                self.body[c].rect.center,g = g,self.body[c].rect.center
-                c +=1"""
+            d = self.body
+
+            HEAD.update(self)
+            c = self.rect.center
+            k = 0
+            while k < len(self.body) :
+                c,self.body[k].rect.center = self.body[k].rect.center,c
+                k +=1
+        
     
-"""
-class SNAKE(pygame.sprite.Sprite):
-
     
 
-    def __init__(self,image,number):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.number = number
+        
+        
     
-    def draw(self,screen):
-        screen.blit(self.image,self.rect)
 
-    def update(self):
-        self.rect.x += self.number"""
         
 
 pygame.init()
@@ -143,13 +135,15 @@ e = SNAKE()
 #c =  pygame.sprite.Group([a,b,e])
 
 
-food = FOOD()
+food = FOOD(CHERRY)
 f = pygame.sprite.GroupSingle()
 f.add(food)
 body = pygame.sprite.Group(e.body)
-g = pygame.sprite.Group(e,food,e.body)
+#g = pygame.sprite.Group(e,food,e.body)
+
 
 screen = pygame.display.set_mode((SCREEN_SIZE),0,32)
+pygame.display.set_caption("Snake game")
 clock = pygame.time.Clock()
 G=0
 while True:
@@ -158,18 +152,27 @@ while True:
                  
                
     G +=1
-    if G==4:
+    if G==3:
         screen.fill(ORANGE)
-        pygame.sprite.spritecollide(e, f,True)
-        pygame.sprite.spritecollide(e, body,True)
-
+        if pygame.sprite.collide_rect(e,  food):
+            food.intersect(e)
+        
+        g = pygame.sprite.Group(e,food,e.body)
+    
+        
+        body = pygame.sprite.Group(e.body[1:])
+        for c in  pygame.sprite.spritecollide(e, body, False):
+            c.intersect(e)
         g.draw(screen)
+        
+            
+
         g.update()
         G=0
 
     #screen.blit(image, Rect(120,120,14,40))
     
-    pygame.draw.rect(screen,YELLOW,Rect((HALF_W,HALF_H),(50,50)))
+    #pygame.draw.rect(screen,YELLOW,Rect((HALF_W,HALF_H),(50,50)))
     pygame.display.update()
     pygame.display.flip()
     clock.tick(20)
