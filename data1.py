@@ -25,21 +25,21 @@ ACC = 30
 
 
 #images 
-CHERRY_PIC = pygame.image.load("cherry.png")
+CHERRY_PIC = pygame.image.load("pic/cherry.png")
 CHERRY = pygame.transform.scale(CHERRY_PIC,(ACC,ACC))
 
-CHERRY1_PIC = pygame.image.load("cherry1.png")
+CHERRY1_PIC = pygame.image.load("pic/cherry1.png")
 CHERRY1 = pygame.transform.scale(CHERRY1_PIC,(ACC,ACC))
 
-CHERRY2_PIC = pygame.image.load("cherry2.png")
+CHERRY2_PIC = pygame.image.load("pic/cherry2.png")
 CHERRY2 = pygame.transform.scale(CHERRY2_PIC,(ACC,ACC))
 
 FRUITS = [CHERRY,CHERRY1,CHERRY2]
-HEAD_PIC = pygame.image.load("snake.png")
+HEAD_PIC = pygame.image.load("pic/snake.png")
 IMAGE = pygame.transform.scale(HEAD_PIC, (32,32))
 HEAD_S = pygame.transform.scale(HEAD_PIC, (ACC,ACC))
 
-BODY_PIC = pygame.image.load("body.png")
+BODY_PIC = pygame.image.load("pic/body.png")
 BODY = pygame.transform.scale(BODY_PIC,(ACC,ACC))
 
 
