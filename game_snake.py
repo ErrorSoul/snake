@@ -13,27 +13,27 @@ class GAME(object):
         self.snake = SNAKE()
         self.screen = pygame.display.set_mode((SCREEN_SIZE),0,32)
         self.clock = pygame.time.Clock()
-        pygame.font.init()
-        self.f = pygame.font.SysFont('freesansbold.ttf',18)
+        
+        
 
         
     def play(self):
         pygame.init()
+        pygame.font.init()
         
         pygame.display.set_caption("Snake game")
         self.run()
 
-    def snakeEatFood(self,snake,food):
-        if pygame.sprite.collide_rect(snake, food):
-                        food.intersect(snake)
+    def objects_interact(self,snake, objects):
+        for c in pygame.sprite.spritecollide(snake, objects, False):
+            c.intersect(snake)
 
-    def snakeCrossSelf(self, snake, body):
-        for c in  pygame.sprite.spritecollide(snake, body, False):
-                        c.intersect(snake)
+
         
 
 
     def drawScore(self, score):
+        self.f = pygame.font.SysFont('freesansbold.ttf',36)
         scoreSurf = self.f.render('Score: %s' % (score), True, WHITE)
         scoreRect = scoreSurf.get_rect()
         scoreRect.topleft = (WIDTH - 120, 10)
@@ -48,17 +48,18 @@ class GAME(object):
                 self.G +=1
                 if self.G==3:
                     self.screen.fill(ORANGE)
-                    self.snakeEatFood(self.snake, self.food)
-
-                    all_objects = pygame.sprite.Group(self.snake,self.food,self.snake.body[1:])
-                    body = pygame.sprite.Group(self.snake.body[1:])
                     
+                    
+                    all_objects = pygame.sprite.Group(self.snake,self.food,self.snake.body[1:])
+                    body_and_food = pygame.sprite.Group(self.snake.body[1:],self.food)
+                
+                    self.objects_interact(self.snake, body_and_food)
                     all_objects.draw(self.screen)
-                    self.snakeCrossSelf(self.snake,body)
+                    
                     all_objects.update()
                     self.G=0
-                    self.drawScore(100)
-                #screen.blit(image, Rect(120,120,14,40))
+                    self.drawScore(self.snake.score )
+                
 
                 #pygame.draw.rect(screen,YELLOW,Rect((HALF_W,HALF_H),(50,50)))
                 pygame.display.update()

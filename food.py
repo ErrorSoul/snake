@@ -25,6 +25,7 @@ class FOOD (pygame.sprite.Sprite):
     
         self.rect.x = random.randint(0,WIDTH-ACC)
         self.rect.y = random.randint(0,HEIGHT-ACC)
+        self.image = random.choice(FRUITS)
 
 
         
