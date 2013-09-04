@@ -15,14 +15,15 @@ class ATOM(pygame.sprite.Sprite):
         self.image = image
         self.dir = [0,0]
         self.rect = self.image.get_rect()
-        self.rect.x = center_point[0]
-        self.rect.y = center_point[1]
+        self.rect.center = (center_point)
+        #self.rect.center[1] = center_point[1]
 
     def update(self):
         self.rect.x = (self.rect.x + self.dir[0]) % WIDTH
         self.rect.y = (self.rect.y + self.dir[1]) % HEIGHT
 
     def intersect(self, other):
+        
         other.stop()
     
         
@@ -42,13 +43,15 @@ class SNAKE(HEAD):
 
     def __init__(self):
         
-        self.body = [ATOM(IMAGE1, [HALF_W -ACC *c , HALF_H]) for c in range(N)]
-        HEAD.__init__(self, IMAGE1, (self.body[0].rect.x,self.body[0].rect.y))
+        self.body = [ATOM(BODY, [HALF_W -ACC *c , HALF_H - ACC]) for c in range(N)]
+        HEAD.__init__(self, HEAD_S, self.body[0].rect.center)
         self.FLAG = True
+        self.score = ZERO
 
 
     def add(self, food):
-        self.body.append(ATOM(CHERRY,(-100,0)))
+        self.score += 5
+        self.body.append(ATOM(BODY,(-100,0)))
         
 
     def move_up(self):
@@ -73,7 +76,6 @@ class SNAKE(HEAD):
             self.dir[1] = ZERO
 
     def stop(self):
-    
         self.FLAG = True
 
     def key_handler(self):
@@ -88,7 +90,7 @@ class SNAKE(HEAD):
                     self.move_up()
 
                 elif(event.key == K_r):
-                    e.dir[0] = ACC
+                    self.dir[0] = ACC
                     self.FLAG = False
                     
 
@@ -108,10 +110,6 @@ class SNAKE(HEAD):
     def update(self):
         self.key_handler()
         if not self.FLAG:
-            
-
-            d = self.body
-
             HEAD.update(self)
             c = self.rect.center
             k = 0
@@ -128,52 +126,3 @@ class SNAKE(HEAD):
 
         
 
-pygame.init()
-#a = HEAD(image,[HALF_W,HALF_H])
-#b= ATOM(image,[HALF_W+64,HALF_H])
-e = SNAKE()
-#c =  pygame.sprite.Group([a,b,e])
-
-
-food = FOOD(CHERRY)
-f = pygame.sprite.GroupSingle()
-f.add(food)
-body = pygame.sprite.Group(e.body)
-#g = pygame.sprite.Group(e,food,e.body)
-
-
-screen = pygame.display.set_mode((SCREEN_SIZE),0,32)
-pygame.display.set_caption("Snake game")
-clock = pygame.time.Clock()
-G=0
-while True:
-    global G
-    
-                 
-               
-    G +=1
-    if G==3:
-        screen.fill(ORANGE)
-        if pygame.sprite.collide_rect(e,  food):
-            food.intersect(e)
-        
-        g = pygame.sprite.Group(e,food,e.body)
-    
-        
-        body = pygame.sprite.Group(e.body[1:])
-        for c in  pygame.sprite.spritecollide(e, body, False):
-            c.intersect(e)
-        g.draw(screen)
-        
-            
-
-        g.update()
-        G=0
-
-    #screen.blit(image, Rect(120,120,14,40))
-    
-    #pygame.draw.rect(screen,YELLOW,Rect((HALF_W,HALF_H),(50,50)))
-    pygame.display.update()
-    pygame.display.flip()
-    clock.tick(20)
-    

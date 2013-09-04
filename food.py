@@ -15,14 +15,15 @@ class FOOD (pygame.sprite.Sprite):
         self.rect.y = random.randint(0,HEIGHT-ACC)
 
     def intersect(self, other):
+        others = pygame.sprite.Group(other,other.body[1:])
         
-        while pygame.sprite.collide_rect(self,other):
+        while pygame.sprite.spritecollide(self,others,False):
             self.__update()
         return other.add(self)
 
     def __update(self):
     
-        self.rect.x = random.randint(0,WIDTH-ACC) 
+        self.rect.x = random.randint(0,WIDTH-ACC)
         self.rect.y = random.randint(0,HEIGHT-ACC)
 
 

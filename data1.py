@@ -21,15 +21,19 @@ SPEED = 250
 CLOCK = pygame.time.Clock()
 SCREEN = pygame.display.set_mode((SCREEN_SIZE),0,32)
 VEL = [5,0]
-ACC = 24
+ACC = 30
 
 
 #images 
-CHERRY = pygame.image.load("cherry.png")
-CHERRY = pygame.transform.scale(CHERRY,(ACC,ACC))
-REDBALL = pygame.image.load("redball.png")
-IMAGE = pygame.transform.scale(REDBALL, (32,32))
-IMAGE1 = pygame.transform.scale(REDBALL, (20,20))
+CHERRY_PIC = pygame.image.load("cherry.png")
+CHERRY = pygame.transform.scale(CHERRY_PIC,(ACC,ACC))
+
+HEAD_PIC = pygame.image.load("snake.png")
+IMAGE = pygame.transform.scale(HEAD_PIC, (32,32))
+HEAD_S = pygame.transform.scale(HEAD_PIC, (ACC,ACC))
+
+BODY_PIC = pygame.image.load("body.png")
+BODY = pygame.transform.scale(BODY_PIC,(ACC,ACC))
 
 
 #colors
