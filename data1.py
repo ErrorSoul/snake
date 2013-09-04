@@ -24,7 +24,14 @@ VEL = [5,0]
 ACC = 30
 
 
-#images 
+#images
+#fruits images
+FRUITS_PIC = pygame.image.load("pic/fruits_full.png")
+#f = pygame.transform.scale(FRUITS_PIC,(300,300))
+P = [FRUITS_PIC.subsurface(Rect(0+i*148,0+j*148,148,148)) for i in range(3) for j in range(3)]
+
+P.pop()
+
 CHERRY_PIC = pygame.image.load("pic/cherry.png")
 CHERRY = pygame.transform.scale(CHERRY_PIC,(ACC,ACC))
 
@@ -34,7 +41,10 @@ CHERRY1 = pygame.transform.scale(CHERRY1_PIC,(ACC,ACC))
 CHERRY2_PIC = pygame.image.load("pic/cherry2.png")
 CHERRY2 = pygame.transform.scale(CHERRY2_PIC,(ACC,ACC))
 
-FRUITS = [CHERRY,CHERRY1,CHERRY2]
+#FRUITS = [CHERRY,CHERRY1,CHERRY2]
+FRUITS = map(lambda x: pygame.transform.scale(x,(48,48)), P)
+
+#snake images
 HEAD_PIC = pygame.image.load("pic/snake.png")
 IMAGE = pygame.transform.scale(HEAD_PIC, (32,32))
 HEAD_S = pygame.transform.scale(HEAD_PIC, (ACC,ACC))
