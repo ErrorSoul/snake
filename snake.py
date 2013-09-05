@@ -18,9 +18,7 @@ class ATOM(pygame.sprite.Sprite):
         self.rect.center = (center_point)
         #self.rect.center[1] = center_point[1]
 
-    def update(self):
-        self.rect.x = (self.rect.x + self.dir[0]) % WIDTH
-        self.rect.y = (self.rect.y + self.dir[1]) % HEIGHT
+    
 
     def intersect(self, other):
         
@@ -35,7 +33,17 @@ class HEAD(ATOM):
     def __init__(self, *kwargs):
         ATOM.__init__(self, *kwargs)
         self.dir = [ZERO,ZERO]
+        self.FLAG = True
+        self.score = ZERO
+        self.angle = 1
+        
+        self.speed = 30
+        
     
+    def update(self):
+        self.rect.x = (self.rect.x + self.dir[0] ) % WIDTH
+        self.rect.y = (self.rect.y + self.dir[1] ) % HEIGHT
+        
 
 
 
@@ -45,71 +53,88 @@ class SNAKE(HEAD):
         
         self.body = [ATOM(BODY, [HALF_W -ACC *c , HALF_H - ACC]) for c in range(N)]
         HEAD.__init__(self, HEAD_S, self.body[0].rect.center)
-        self.FLAG = True
-        self.score = ZERO
+        self.over_flag = False
+        
+    
 
 
     def add(self, food):
         self.score += 5
         self.body.append(ATOM(BODY,(-100,0)))
+
+
+    def check_horiz_move (self):
+        return self.rect.y + self.dir[1] == self.rect.y
+
+    def check_vertic_move(self):
+        return self.rect.x + self.dir[0] == self.rect.x
+
+    def need_for_speed(self):
+        self.speed += 0.005*(self.score/20)
+    
+    def head_rotate(self,n):
+        if not self.angle:
+                self.image = pygame.transform.rotate(self.image, -90)
+        self.image = pygame.transform.rotate(self.image, 90)
+        self.angle = 1 
         
 
     def move_up(self):
-        if self.rect.y + self.dir[1] == self.rect.y:
+        if self.check_horiz_move():
             self.dir[0]= ZERO
             self.dir[1]=-ACC
-
+            if  not self.angle:
+                self.image = pygame.transform.rotate(self.image, -90)
+            else:
+                self.image = pygame.transform.rotate(self.image, 90)
+            self.angle = 1 
+                
     def move_down(self):
-        if self.rect.y + self.dir[1] == self.rect.y:
+        if self.check_horiz_move():
             self.dir[0] = ZERO
             self.dir[1] = ACC
+            if not self.angle:
+                self.image = pygame.transform.rotate(self.image, 90)
+                
+                
+            else:
+                self.image = pygame.transform.rotate(self.image, -90)
+            self.angle = 0  
 
     def move_right(self):
-        if self.rect.x + self.dir[0] == self.rect.x:
+        if self.check_vertic_move():
             self.dir[0] = ACC
             self.dir[1] = ZERO
+            if not self.angle:
+                self.image = pygame.transform.rotate(self.image, 90)
+                
+            else:
+                self.image = pygame.transform.rotate(self.image, -90)
+            self.angle = 1 
             
 
     def move_left(self):
-        if self.rect.x + self.dir[0] == self.rect.x:
+        if self.check_vertic_move():
             self.dir[0] = -ACC
             self.dir[1] = ZERO
+            if not self.angle:
+                self.image = pygame.transform.rotate(self.image, -90)
+                
+            else:
+                self.image= pygame.transform.rotate(self.image, 90)
+            self.angle = 0 
 
     def stop(self):
+        self.over_flag = True
         self.FLAG = True
 
-    def key_handler(self):
-        
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                exit()
-
-            elif event.type == KEYDOWN:
-                if (event.key == K_UP or event.key == K_w) :
-                    self.move_up()
-
-                elif(event.key == K_r):
-                    self.dir[0] = ACC
-                    self.FLAG = False
-                    
-
-                elif (event.key == K_DOWN):
-                    self.move_down()
-
-                elif (event.key == K_RIGHT):
-                    
-                    self.move_right()
-                    
-
-                elif (event.key == K_LEFT):
-                    self.move_left()
-        
-    
 
     def update(self):
-        self.key_handler()
+        
         if not self.FLAG:
+            self.need_for_speed()
+            
+            
             HEAD.update(self)
             c = self.rect.center
             k = 0

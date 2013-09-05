@@ -21,13 +21,13 @@ SPEED = 250
 CLOCK = pygame.time.Clock()
 SCREEN = pygame.display.set_mode((SCREEN_SIZE),0,32)
 VEL = [5,0]
-ACC = 30
+ACC = 32
 
 
 #images
 #fruits images
 FRUITS_PIC = pygame.image.load("pic/fruits_full.png")
-#f = pygame.transform.scale(FRUITS_PIC,(300,300))
+
 P = [FRUITS_PIC.subsurface(Rect(0+i*148,0+j*148,148,148)) for i in range(3) for j in range(3)]
 
 P.pop()
@@ -45,20 +45,24 @@ CHERRY2 = pygame.transform.scale(CHERRY2_PIC,(ACC,ACC))
 FRUITS = map(lambda x: pygame.transform.scale(x,(48,48)), P)
 
 #snake images
-HEAD_PIC = pygame.image.load("pic/snake.png")
+HEAD_PIC = pygame.image.load("pic/snake1.png")
 IMAGE = pygame.transform.scale(HEAD_PIC, (32,32))
-HEAD_S = pygame.transform.scale(HEAD_PIC, (ACC,ACC))
+HEAD_PIC_SCALE = pygame.transform.scale(HEAD_PIC, (ACC,ACC))
+HEAD_S = pygame.transform.rotate(HEAD_PIC_SCALE, 270.0)
 
-BODY_PIC = pygame.image.load("pic/body.png")
+BODY_PIC = pygame.image.load("pic/body2.png")
 BODY = pygame.transform.scale(BODY_PIC,(ACC,ACC))
 
 
 #colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0,255,0)
-BLUE = (0,0,255)
-LTBLUE = (0,255,255)
-ORANGE = (255,150,0)
-YELLOW = (255,255,0)
+#               R     G     B
+BLACK     =    (0,    0,    0)
+WHITE     =    (255,  255,  255)
+RED       =    (255,  0,    0)
+GREEN     =    (0,    255,  0)
+BLUE      =    (0,    0,    255)
+LTBLUE    =    (0,    255,  255)
+ORANGE    =    (255,  150,  0)
+YELLOW    =    (255,  255,  0)
+DARKGREEN =    (  0, 155,   0)
+DARKGRAY  =    ( 40,  40,  40)
