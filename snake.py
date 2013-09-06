@@ -1,6 +1,6 @@
 
 from data1 import *
-from food import FOOD
+
 
 
 
@@ -18,9 +18,12 @@ class ATOM(pygame.sprite.Sprite):
         self.rect.center = (center_point)
         #self.rect.center[1] = center_point[1]
 
-    
+        self.f = False
 
     def intersect(self, other):
+        if not self.f:
+            z.play()
+            self.f = True
         
         other.stop()
     
@@ -54,6 +57,7 @@ class SNAKE(HEAD):
         self.body = [ATOM(BODY, [HALF_W -ACC *c , HALF_H - ACC]) for c in range(N)]
         HEAD.__init__(self, HEAD_S, self.body[0].rect.center)
         self.over_flag = False
+        
         
     
 
@@ -125,6 +129,7 @@ class SNAKE(HEAD):
             self.angle = 0 
 
     def stop(self):
+       
         self.over_flag = True
         self.FLAG = True
 

@@ -12,7 +12,7 @@ WIDTH = 640
 HEIGHT = 480
 N = 5
 
-
+pygame.mixer.init()
 HALF_W = WIDTH/2
 HALF_H = HEIGHT/2
 SCREEN_SIZE = (WIDTH, HEIGHT)
@@ -42,7 +42,7 @@ CHERRY2_PIC = pygame.image.load("pic/cherry2.png")
 CHERRY2 = pygame.transform.scale(CHERRY2_PIC,(ACC,ACC))
 
 #FRUITS = [CHERRY,CHERRY1,CHERRY2]
-FRUITS = map(lambda x: pygame.transform.scale(x,(48,48)), P)
+FRUITS = map(lambda x: pygame.transform.scale(x,(40,40)), P)
 
 #snake images
 HEAD_PIC = pygame.image.load("pic/snake1.png")
@@ -52,7 +52,11 @@ HEAD_S = pygame.transform.rotate(HEAD_PIC_SCALE, 270.0)
 
 BODY_PIC = pygame.image.load("pic/body2.png")
 BODY = pygame.transform.scale(BODY_PIC,(ACC,ACC))
+e = pygame.mixer.Sound("pic/piupiu.wav")
+z = pygame.mixer.Sound("pic/zhroon.wav")
 
+#sounds and music
+#EAT_SOUND = pygame.mixer.music.load("pic/piupiu.wav")
 
 #colors
 #               R     G     B

@@ -1,6 +1,6 @@
 
 from data1 import *
-from food import FOOD
+from food import FOOD, S_FOOD
 from snake import SNAKE 
 
 
@@ -12,21 +12,28 @@ class GAME(object):
         self.G = 0
         self.food = FOOD(CHERRY)
         self.snake = SNAKE()
-        self.screen = pygame.display.set_mode((SCREEN_SIZE),HWSURFACE | FULLSCREEN,32)
+        
+        self.special_food = S_FOOD()
+        self.screen = pygame.display.set_mode((SCREEN_SIZE),0,32)
         self.clock = pygame.time.Clock()
+        self.score = 0
         
         
 
         
     def play(self):
+    
         pygame.init()
-        pygame.font.init()
+        
         pygame.display.set_caption("Snake game")
         self.run()
 
     def new_game(self,over_flag):
         if over_flag:
+             
             self.snake = SNAKE()
+            
+            
             self.G = 0
 
     def terminate(self):
@@ -73,7 +80,7 @@ class GAME(object):
     def objects_interact(self,snake, objects):
         for c in pygame.sprite.spritecollide(snake, objects, False):
             c.intersect(snake)
-
+            self.score +=5
 
         
     def showGameOverScreen(self,over_flag):
@@ -89,7 +96,7 @@ class GAME(object):
             self.screen.blit(gameSurf, gameRect)
             self.screen.blit(overSurf, overRect)
             self.drawPressKeyMsg('Press g key to new play.',(WIDTH - 250, HEIGHT - 30))
-            pygame.display.update()
+            #pygame.display.update()
             pygame.time.wait(500)
             #checkForKeyPress() # clear out any key presses in the event queue
 
@@ -123,16 +130,23 @@ class GAME(object):
                     self.screen.fill(ORANGE)
                     
                     
-                    all_objects = pygame.sprite.Group(self.snake,self.food,self.snake.body[1:])
-                    body_and_food = pygame.sprite.Group(self.snake.body[1:],self.food)
+                    all_objects = pygame.sprite.Group(self.snake,self.food,self.snake.body[1:],self.special_food)
+
+                    self.special_food.other = self.snake
+                    
+                    
+                    body_and_food = pygame.sprite.Group(self.snake.body[1:],self.food,self.special_food)
                     
                     self.objects_interact(self.snake, body_and_food)
                     all_objects.draw(self.screen)
                     
                     all_objects.update()
+                    #self.special_food.update(self.score)
+                    #self.screen.blit(self.special_food.image,self.special_food.rect)
+                   
                     
                     self.G=0
-                    self.drawScore(self.snake.score )
+                    self.drawScore(self.score )
                     self.drawStart(self.snake.over_flag, self.snake.FLAG)
                     self.showGameOverScreen(self.snake.over_flag)
                 
