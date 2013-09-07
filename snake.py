@@ -16,7 +16,7 @@ class ATOM(pygame.sprite.Sprite):
         self.dir = [0,0]
         self.rect = self.image.get_rect()
         self.rect.center = (center_point)
-        #self.rect.center[1] = center_point[1]
+        
 
         self.f = False
 
@@ -40,7 +40,7 @@ class HEAD(ATOM):
         self.score = ZERO
         self.angle = 1
         
-        self.speed = 30
+        self.speed = 35
         
     
     def update(self):
@@ -57,13 +57,14 @@ class SNAKE(HEAD):
         self.body = [ATOM(BODY, [HALF_W -ACC *c , HALF_H - ACC]) for c in range(N)]
         HEAD.__init__(self, HEAD_S, self.body[0].rect.center)
         self.over_flag = False
+        self.score = 0 
         
         
     
 
 
     def add(self, food):
-        self.score += 5
+        
         self.body.append(ATOM(BODY,(-100,0)))
 
 

@@ -22,8 +22,9 @@ CLOCK = pygame.time.Clock()
 SCREEN = pygame.display.set_mode((SCREEN_SIZE),0,32)
 VEL = [5,0]
 ACC = 32
-
-
+FONT = 'freesansbold.ttf'
+GAME_NAME  = 'Snake game'
+OUT = (-100,0)
 #images
 #fruits images
 FRUITS_PIC = pygame.image.load("pic/fruits_full.png")
