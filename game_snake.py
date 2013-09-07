@@ -17,6 +17,7 @@ class GAME(object):
         self.screen = pygame.display.set_mode((SCREEN_SIZE),0,32)
         self.clock = pygame.time.Clock()
         self.score = 0
+        self.timer = 0 
         
         
 
@@ -32,6 +33,7 @@ class GAME(object):
         if over_flag:
              
             self.snake = SNAKE()
+            self.score = 0
             
             
             self.G = 0
@@ -53,6 +55,10 @@ class GAME(object):
                     if(event.key == K_r):
                         self.snake.dir[0] = ACC
                         self.snake.FLAG = False
+                    elif(event.key == K_a):
+                        print "fffff"
+                        self.special_food.fl = False
+                        
                     elif (event.key == K_t):
                         self.terminate()
                     elif (event.key == K_g):
@@ -85,23 +91,35 @@ class GAME(object):
         
     def showGameOverScreen(self,over_flag):
         if over_flag:
-            gameOverFont = pygame.font.Font('freesansbold.ttf', 150)
-            gameSurf = gameOverFont.render('Game', True, WHITE)
-            overSurf = gameOverFont.render('Over', True, WHITE)
-            gameRect = gameSurf.get_rect()
-            overRect = overSurf.get_rect()
-            gameRect.midtop = (WIDTH / 2, 10)
-            overRect.midtop = (WIDTH / 2, gameRect.height + 10 + 25)
-
-            self.screen.blit(gameSurf, gameRect)
-            self.screen.blit(overSurf, overRect)
+            
+            game = GAME_OVER
+            gameRect = game.get_rect()
+            
+            gameRect.midtop = (HALF_W, 0)
+            self.screen.blit(game, gameRect)
+            
             self.drawPressKeyMsg('Press g key to new play.',(WIDTH - 250, HEIGHT - 30))
-            #pygame.display.update()
+            
             pygame.time.wait(500)
-            #checkForKeyPress() # clear out any key presses in the event queue
+            
+
+    def special_food_life(self):
+        
+        if not self.special_food.g:
+            
+            seconds = self.clock.tick()
+            self.timer += seconds
+            
+           
+            if self.timer == 10:
+                self.score += 5
+                self.special_food.fl = False
+                self.special_food.g = True
+                
+                self.timer = 0
 
 
-
+    
     def drawStart(self, over_flag, flag):
         if not over_flag and  flag:
             self.drawPressKeyMsg('Press r to start',(0,HEIGHT - 30))
@@ -131,18 +149,20 @@ class GAME(object):
                     
                     
                     all_objects = pygame.sprite.Group(self.snake,self.food,self.snake.body[1:],self.special_food)
+                    
 
                     self.special_food.other = self.snake
                     
                     
                     body_and_food = pygame.sprite.Group(self.snake.body[1:],self.food,self.special_food)
-                    
+                    self.special_food.add(self.score)
                     self.objects_interact(self.snake, body_and_food)
+
+                    
                     all_objects.draw(self.screen)
                     
                     all_objects.update()
-                    #self.special_food.update(self.score)
-                    #self.screen.blit(self.special_food.image,self.special_food.rect)
+                    self.special_food_life()
                    
                     
                     self.G=0
