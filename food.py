@@ -1,8 +1,6 @@
-import pygame
+
 import random 
-from data1 import WIDTH,HEIGHT,ACC
-from data1 import CHERRY1, CHERRYS, FRUITS
-from data1 import OUT, ZERO, e
+from data1 import *
 
 
 
@@ -50,11 +48,11 @@ class S_FOOD(FOOD):
 
     def __init__(self):
         FOOD.__init__(self,CHERRY1)
-        self.numbers = range(20,1000, 20)
+        self.c = 0
+        self.numbers = range(50,1000, 50)
         self.rect.center = OUT 
         self.fl = True
         self.g = True
-        self.c = ZERO
         
 
     def check_position(self,other):
@@ -69,19 +67,8 @@ class S_FOOD(FOOD):
     def add(self,score):
         self.score = score
                 
-    
-        
-        
-      
-            
+
     def update(self):
-        self.c += 1
-        t = self.c % 3
-        self.image = CHERRYS[t]
-        
-        
-           
-        
         a = filter(lambda x: x == self.other.score,self.numbers)
         if a and self.fl:
             self.check_position(self.other)

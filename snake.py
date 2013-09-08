@@ -1,8 +1,6 @@
-import pygame 
-from data1 import WIDTH,HEIGHT
-from data1 import ACC,ZERO
-from data1 import HALF_H,HALF_W
-from data1 import BODY,HEAD_S, N, z
+
+from data1 import *
+
 
 
 
@@ -77,7 +75,7 @@ class SNAKE(HEAD):
         return self.rect.x + self.dir[0] == self.rect.x
 
     def need_for_speed(self):
-        self.speed += 0.005*(self.score/30)
+        self.speed += 0.005*(self.score/20)
     
     def head_rotate(self,n):
         if not self.angle:
