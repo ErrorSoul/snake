@@ -25,6 +25,10 @@ ACC = 32
 FONT = 'freesansbold.ttf'
 GAME_NAME  = 'Snake game'
 OUT = (-100,0)
+RECT  = (200,18)
+TIMER  = 20 
+
+
 #images
 #fruits images
 FRUITS_PIC = pygame.image.load("pic/fruits_full.png")
@@ -42,7 +46,7 @@ CHERRY1 = pygame.transform.scale(CHERRY1_PIC,(ACC,ACC))
 CHERRY2_PIC = pygame.image.load("pic/cherry2.png")
 CHERRY2 = pygame.transform.scale(CHERRY2_PIC,(ACC,ACC))
 
-#FRUITS = [CHERRY,CHERRY1,CHERRY2]
+CHERRYS = [CHERRY,CHERRY1,CHERRY2]
 FRUITS = map(lambda x: pygame.transform.scale(x,(40,40)), P)
 
 #snake images

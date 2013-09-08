@@ -2,7 +2,7 @@
 from data1 import *
 from food import FOOD, S_FOOD
 from snake import SNAKE 
-
+from linebar import Linebar
 
 
 # HWSURFACE | FULLSCREEN
@@ -15,6 +15,7 @@ class GAME(object):
         self.special_food = S_FOOD()
         self.screen = pygame.display.set_mode((SCREEN_SIZE),0,32)
         self.clock = pygame.time.Clock()
+        self.linebar = Linebar(WHITE,(30,25),RECT)
         self.timer = 0 
         
         
@@ -102,17 +103,20 @@ class GAME(object):
         if not self.special_food.g:
             seconds = self.clock.tick()
             self.timer += seconds
-            if self.timer == 20:
+            self.linebar.play(self.screen,self.timer)
+            
+            if self.timer == TIMER:
                 self.snake.score +=5
                 self.special_food.rect.center = OUT 
-            if self.timer == 25:
+            if self.timer == TIMER + 5:
                 self.special_food.g = True
                 self.special_food.fl = True
                 self.timer = 0
         
         else:
             self.timer = 0
-            self.special_food.rect.center = OUT 
+            self.special_food.rect.center = OUT
+            self.linebar.f = False
 
     
     def drawStart(self, over_flag, flag):
@@ -167,4 +171,3 @@ class GAME(object):
 #run game 
 a = GAME()
 a.play()
-
