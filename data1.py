@@ -59,8 +59,9 @@ BODY_PIC = pygame.image.load("pic/body2.png")
 BODY = pygame.transform.scale(BODY_PIC,(ACC,ACC))
 e = pygame.mixer.Sound("pic/piupiu.wav")
 z = pygame.mixer.Sound("pic/zhroon.wav")
-#games images
 
+#games images
+START_PIC = pygame.image.load("pic/title1.png")
 GAME_OVER_PIC = pygame.image.load("pic/game_over.png")
 GAME_OVER  = pygame.transform.scale(GAME_OVER_PIC,SCREEN_SIZE)
 
@@ -79,3 +80,7 @@ ORANGE    =    (255,  150,  0)
 YELLOW    =    (255,  255,  0)
 DARKGREEN =    (  0, 155,   0)
 DARKGRAY  =    ( 40,  40,  40)
+
+#start screen colors
+
+start_colors = [LTBLUE,BLUE,GREEN,RED]

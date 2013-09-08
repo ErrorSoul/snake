@@ -16,7 +16,8 @@ class GAME(object):
         self.screen = pygame.display.set_mode((SCREEN_SIZE),0,32)
         self.clock = pygame.time.Clock()
         self.linebar = Linebar(WHITE,(30,25),RECT)
-        self.timer = 0 
+        self.timer = 0
+        self.button = False
         
         
 
@@ -25,6 +26,7 @@ class GAME(object):
     
         pygame.init()
         pygame.display.set_caption(GAME_NAME)
+        self.start_screen()
         self.run()
 
     def new_game(self,over_flag):
@@ -56,7 +58,7 @@ class GAME(object):
 
                 elif(event.key == K_a):
                     
-                    self.special_food.fl = False
+                    self.button = True
                         
                 elif (event.key == K_t):
                     self.terminate()
@@ -79,7 +81,15 @@ class GAME(object):
                         self.snake.move_left()
         
     
-
+    def start_screen(self):
+        
+        while not self.button:
+            for c in start_colors:
+                self.screen.fill(c)
+                
+            
+                
+            
     def objects_interact(self,snake, objects):
         if not snake.over_flag:
             for c in pygame.sprite.spritecollide(snake, objects, False):
