@@ -1,7 +1,7 @@
 import pygame
 import random 
 from data1 import WIDTH,HEIGHT,ACC
-from data1 import CHERRY1, CHERRYS, FRUITS
+from data1 import CHERRY1, CHERRYS, FRUITS,SPECIAL_FOOD
 from data1 import OUT, ZERO, e
 
 
@@ -55,6 +55,7 @@ class S_FOOD(FOOD):
         self.fl = True
         self.g = True
         self.c = ZERO
+        self.r = ZERO
         
 
     def check_position(self,other):
@@ -75,9 +76,14 @@ class S_FOOD(FOOD):
       
             
     def update(self):
-        self.c += 1
-        t = self.c % 3
-        self.image = CHERRYS[t]
+        self.r +=1
+        if self.r ==1:
+            self.c += 1
+           
+            g = self.c % 3
+            #self.image = CHERRYS[t]
+            self.image = SPECIAL_FOOD[g]
+            self.r = 0
         
         
            

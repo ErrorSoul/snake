@@ -3,7 +3,7 @@
 import pygame
 
 from pygame.locals import *
-
+import os 
 from sys import exit
 
 
@@ -69,6 +69,8 @@ START_PIC = pygame.image.load("pic/title3.png")
 
 GAME_OVER_PIC = pygame.image.load("pic/game_over.png")
 GAME_OVER  = pygame.transform.scale(GAME_OVER_PIC,SCREEN_SIZE)
+
+SPECIAL_FOOD = [pygame.transform.scale(pygame.image.load('pic/special_food/' + file),(40,40)) for file in os.listdir('pic/special_food')]
 
 #sounds and music
 #EAT_SOUND = pygame.mixer.music.load("pic/piupiu.wav")
