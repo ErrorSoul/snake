@@ -2,7 +2,7 @@ import pygame
 import random 
 from data1 import WIDTH,HEIGHT,ACC
 from data1 import CHERRY1, CHERRYS, FRUITS,SPECIAL_FOOD
-from data1 import OUT, ZERO, e
+from data1 import OUT, ZERO, e ,SOUND
 
 
 
@@ -30,7 +30,7 @@ class FOOD (pygame.sprite.Sprite):
     def intersect(self, other):
         other.score += 5
 
-        e.set_volume(0.1)
+        e.set_volume(0.3)
         e.play()
         self.check_position(other)
         other.add(self)
@@ -50,7 +50,7 @@ class S_FOOD(FOOD):
 
     def __init__(self):
         FOOD.__init__(self,CHERRY1)
-        self.numbers = range(20,1000, 20)
+        self.numbers = range(50,1000, 50)
         self.rect.center = OUT 
         self.fl = True
         self.g = True
@@ -107,8 +107,10 @@ class S_FOOD(FOOD):
         self.g = True
         
         self.rect.center = OUT 
-        e.set_volume(0.1)
+        e.set_volume(0.3)
+        SOUND.stop()
         e.play()
+        pygame.mixer.music.unpause()
         other.add(self)
         
    

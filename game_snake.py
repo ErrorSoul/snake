@@ -18,6 +18,7 @@ class GAME(object):
         self.linebar = Linebar(WHITE,(30,25),RECT)
         self.timer = 0
         self.button = False
+        self.played = False
         
         
 
@@ -55,6 +56,7 @@ class GAME(object):
                 if(event.key == K_r):
                     self.snake.dir[0] = ACC
                     self.snake.FLAG = False
+                    self.played= True
 
                 elif(event.key == K_RETURN):
                     
@@ -82,7 +84,8 @@ class GAME(object):
         
     
     def start_screen(self):
-
+        
+        GAME_MUSIC.play()
         c = 0 
         while not self.button:
             self.key_handler()
@@ -96,7 +99,9 @@ class GAME(object):
                 self.drawPressKeyMsg('Press Enter',(HALF_W -90,HEIGHT - 135),20, WHITE)
             pygame.display.flip()
             self.clock.tick(1)
-            
+        else:
+            GAME_MUSIC.stop()
+                     
 
                 
             
@@ -111,7 +116,7 @@ class GAME(object):
         
     def showGameOverScreen(self,over_flag):
         if over_flag:
-            
+            pygame.mixer.music.stop()
             game = GAME_OVER
             gameRect = game.get_rect()
             gameRect.midtop = (HALF_W, 0)
@@ -123,16 +128,27 @@ class GAME(object):
     def special_food_life(self):
         
         if not self.special_food.g:
+            pygame.mixer.music.pause()
+            
             seconds = self.clock.tick()
+            if self.timer == 0:
+                SOUND.play()
             self.timer += seconds
+           
             self.linebar.play(self.screen,self.timer)
             
+            
             if self.timer == TIMER:
+                
                 self.snake.score +=5
-                self.special_food.rect.center = OUT 
+                self.special_food.rect.center = OUT
+                SOUND.stop()
+                
             if self.timer == TIMER + 5:
                 self.special_food.g = True
                 self.special_food.fl = True
+                
+                pygame.mixer.music.unpause()
                 self.timer = 0
         
         else:
@@ -160,10 +176,20 @@ class GAME(object):
 
 
     def run(self):
+            
+           
      
 
             while True:
+               
                 self.key_handler()
+                if  self.played:
+                    pygame.mixer.music.play()
+                    pygame.mixer.music.set_volume(0.4)
+                    self.played = False
+                    
+
+                
                 self.start_screen()
                 self.G +=1
                 if self.G==4:

@@ -62,6 +62,9 @@ BODY_PIC = pygame.image.load("pic/body2.png")
 BODY = pygame.transform.scale(BODY_PIC,(ACC,ACC))
 e = pygame.mixer.Sound("pic/piupiu.wav")
 z = pygame.mixer.Sound("pic/zhroon.wav")
+pygame.mixer.music.load("pic/move.wav")
+GAME_MUSIC = pygame.mixer.Sound('pic/start_screen.wav')
+SOUND = pygame.mixer.Sound('pic/alarm.wav')
 
 #games images
 
