@@ -4,7 +4,7 @@ from food import FOOD, S_FOOD
 from snake import SNAKE 
 from linebar import Linebar
 
-
+# /usr/share/fonts 
 # HWSURFACE | FULLSCREEN
 
 class GAME(object):
@@ -16,7 +16,8 @@ class GAME(object):
         self.screen = pygame.display.set_mode((SCREEN_SIZE),0,32)
         self.clock = pygame.time.Clock()
         self.linebar = Linebar(WHITE,(30,25),RECT)
-        self.timer = 0 
+        self.timer = 0
+        self.button = False
         
         
 
@@ -54,9 +55,9 @@ class GAME(object):
                     self.snake.dir[0] = ACC
                     self.snake.FLAG = False
 
-                elif(event.key == K_a):
+                elif(event.key == K_RETURN):
                     
-                    self.special_food.fl = False
+                    self.button = True
                         
                 elif (event.key == K_t):
                     self.terminate()
@@ -79,7 +80,25 @@ class GAME(object):
                         self.snake.move_left()
         
     
-
+    def start_screen(self):
+        c = 0 
+        while not self.button:
+            self.key_handler()
+            c +=1
+            t= c%4
+            
+            self.screen.fill(start_colors[t])
+            self.screen.blit(START_PIC, (-10,0))
+            if c %2 == 0 or c == 1:
+                pygame.draw.rect(self.screen, WHITE, (HALF_W -125,HEIGHT - 135,200,30),2)
+                self.drawPressKeyMsg('Press Enter',(HALF_W -90,HEIGHT - 135),20, WHITE)
+            pygame.display.flip()
+            self.clock.tick(1)
+            
+                
+            
+                
+            
     def objects_interact(self,snake, objects):
         if not snake.over_flag:
             for c in pygame.sprite.spritecollide(snake, objects, False):
@@ -94,7 +113,7 @@ class GAME(object):
             gameRect = game.get_rect()
             gameRect.midtop = (HALF_W, 0)
             self.screen.blit(game, gameRect)
-            self.drawPressKeyMsg('Press g key to new play.',(WIDTH - 250, HEIGHT - 30))
+            self.drawPressKeyMsg('Press g key to new play.',(WIDTH - 250, HEIGHT - 30),18,DARKGRAY)
             pygame.time.wait(500)
             
 
@@ -121,17 +140,17 @@ class GAME(object):
     
     def drawStart(self, over_flag, flag):
         if not over_flag and  flag:
-            self.drawPressKeyMsg('Press r to start',(0,HEIGHT - 30))
+            self.drawPressKeyMsg('Press r to start',(0,HEIGHT - 30),18,DARKGRAY)
 
-    def drawPressKeyMsg(self,str,(x,y)):
-        pressKeySurf = pygame.font.Font(FONT, 18).render(str, True, DARKGRAY)
+    def drawPressKeyMsg(self,str,(x,y),font_size,color):
+        pressKeySurf = pygame.font.Font(VERDANA, font_size).render(str, True, color)
         pressKeyRect = pressKeySurf.get_rect()
         pressKeyRect.topleft = (x,y)
         self.screen.blit(pressKeySurf, pressKeyRect)
 
     def drawScore(self, score):
-        self.f = pygame.font.SysFont(FONT,36)
-        scoreSurf = self.f.render('Score: %s' % (score), True, WHITE)
+        self.f = pygame.font.Font(VERDANA,25)
+        scoreSurf = self.f.render('Score:'+str(score), True, WHITE)
         scoreRect = scoreSurf.get_rect()
         scoreRect.topleft = (WIDTH - 140, 10)
         self.screen.blit(scoreSurf, scoreRect)
@@ -142,6 +161,7 @@ class GAME(object):
 
             while True:
                 self.key_handler()
+                self.start_screen()
                 self.G +=1
                 if self.G==4:
                     self.screen.fill(ORANGE)
