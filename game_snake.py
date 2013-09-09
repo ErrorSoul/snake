@@ -26,6 +26,7 @@ class GAME(object):
     
         pygame.init()
         pygame.display.set_caption(GAME_NAME)
+        self.start_screen()
         self.run()
 
     def new_game(self,over_flag):
@@ -81,6 +82,7 @@ class GAME(object):
         
     
     def start_screen(self):
+
         c = 0 
         while not self.button:
             self.key_handler()
@@ -95,6 +97,7 @@ class GAME(object):
             pygame.display.flip()
             self.clock.tick(1)
             
+
                 
             
                 
